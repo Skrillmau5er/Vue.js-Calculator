@@ -13,7 +13,7 @@ var calcArea = new Vue({
     el: '#calculator-area',
     methods: {
         put: function() {
-            results.results += 
+            results.results += value
         }
     }
 })
