@@ -13,50 +13,18 @@
     <body>
         <nav class="navbar navbar-toggleable-md navbar-light bg-faded">
              <a class="navbar-brand" href="#">Vue.js Calculator</a>
-             <!--
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav">
-                <li class="nav-item active">
-                    <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-                </li>
-                </ul>
-            </div>-->
         </nav>
-        <div id="calculator-area" class="col-sm-6">
+        <div id="calculator" class="col-sm-6">
          <button class="button" id="clear" @click="clear">{{ sign }}</button>
-            <div id="results">
-                {{results}}
+            <div id="results">{{results}}</div>
                 <!--<img src="media/copy.png" id="copyImage" @click.stop.prevent="copyResults">-->
-            </div>
-            
-            <div class="row">
-                <calc-button id="seven" value="7" @click="put">{{ number }}</calc-button>
-                <button id="eight" class="button" @click="put">{{ number }}</button>
-                <button id="nine" class="button" @click="put">{{ number }}</button>
-            </div>
-            <div class="row">
-                <button id="four" class="button" @click="put">{{ number }}</button>
-                <button id="five" class="button" @click="put">{{ number }}</button>
-                <button id="six" class="button" @click="put">{{ number }}</button>
-            </div>
-            <div class="row">
-                <button id="one" class="button" @click="put">{{ number }}</button>
-                <button id="two" class="button" @click="put">{{ number }}</button>
-                <button id="three" class="button" @click="put">{{ number }}</button>
-            </div>
-            <div class="row">
-                <button id="plus" class="button" @click="addSign">{{ sign }}</button>
-                <button id="zero" class="button" @click="put">{{ number }}</button>
-                <button id="minus" class="button" @click="addSign">{{ sign }}</button>
-            </div>
-            <div class="row">
-                <button class="button" id="multiply" @click="addSign">{{ sign }}</button>
-                <button class="button" @click="doMath" id="equals">{{ sign }}</button>
-                <button class="button" id="divide" @click="addSign">{{ sign }}</button>
-            </div>
+            <div id="calculator-area">
+                <calc-button
+                    v-for="value in buttons"
+                    v-bind:key="value.id"
+                    v-bind:value="value.value"
+                ></calc-button>
+            </div>  
         </div>
 
     </body>

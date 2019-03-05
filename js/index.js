@@ -1,211 +1,40 @@
 Vue.component('calc-button', {
-    data: function() {
-        return{
-            number: 7
-        }
-    },
     props: ['value'],
-    template: '<button class="button" @click="number">{{value}}</button>'
-
+    template: '<button class="button" @click="put(value)" >{{value}}</button>',
+    methods: {
+        put: function (v) {
+            if(isNaN(v)){
+                if(v === '+') results.addSign(v);
+                else if(v === '-') results.addSign(v);
+                else if(v === '*') results.addSign(v);
+                else if(v === '/') results.addSign(v);
+                else results.calculate();
+            }
+            else results.add(v);
+        }
+    }
 });
 
 var calcArea = new Vue({
     el: '#calculator-area',
-    methods: {
-        put: function() {
-            results.results += 
-        }
-    }
-})
-
-var seven = new Vue({
-    el: "#seven",
-    data: {
-        number: 7
-    },
-    methods: {
-        put: function () {
-            results.calculate(this.number)
-        }
-    }
-});
-
-var eight = new Vue({
-    el: "#eight",
-    data: {
-        number: 8
-    },
-    methods: {
-        put: function () {
-            results.calculate(this.number)
-        }
-    }
-});
-
-var nine = new Vue({
-    el: "#nine",
-    data: {
-        number: 9
-    },
-    methods: {
-        put: function () {
-            results.calculate(this.number)
-        }
-    }
-});
-
-var six = new Vue({
-    el: "#six",
-    data: {
-        number: 6
-    },
-    methods: {
-        put: function () {
-            results.calculate(this.number)
-        }
-    }
-});
-
-var five = new Vue({
-    el: "#five",
-    data: {
-        number: 5
-    },
-    methods: {
-        put: function () {
-            results.calculate(this.number)
-        }
-    }
-});
-
-var four = new Vue({
-    el: "#four",
-    data: {
-        number: 4
-    },
-    methods: {
-        put: function () {
-            results.calculate(this.number)
-        }
-    }
-});
-
-var three = new Vue({
-    el: "#three",
-    data: {
-        number: 3
-    },
-    methods: {
-        put: function () {
-            results.calculate(this.number)
-        }
-    }
-});
-
-var two = new Vue({
-    el: "#two",
-    data: {
-        number: 2
-    },
-    methods: {
-        put: function () {
-            results.calculate(this.number)
-        }
-    }
-});
-
-var one = new Vue({
-    el: "#one",
-    data: {
-        number: 1
-    },
-    methods: {
-        put: function () {
-            results.calculate(this.number)
-        }
-    }
-});
-
-var zero = new Vue({
-    el: "#zero",
-    data: {
-        number: 0
-    },
-    methods: {
-        put: function () {
-            results.calculate(this.number)
-        }
-    }
-});
-
-var plus = new Vue({
-    el: '#plus',
-    data: {
-        sign: '+'
-    },
-    methods: {
-        addSign: function (){
-            results.addSign(this.sign)
-        }
-    }
-});
-
-var minus = new Vue({
-    el: '#minus',
-    data: {
-        sign: '-'
-    },
-    methods: {
-        addSign: function (){
-            results.addSign(this.sign)
-        }
-    }
-});
-
-var divide = new Vue({
-    el: '#divide',
-    data: {
-        sign: '/'
-    },
-    methods: {
-        addSign: function (){
-            results.addSign(this.sign)
-        }
-    }
-});
-
-var multiply = new Vue({
-    el: '#multiply',
-    data: {
-        sign: '*'
-    },
-    methods: {
-        addSign: function (){
-            results.addSign(this.sign)
-        }
-    }
-});
-
-var equals = new Vue({
-    el: '#equals',
-    data: {
-        sign: "="
-    },
-    methods: {
-        doMath: function(){
-            if(results.sign == '+'){
-                results.results = parseInt(results.results) + parseInt(results.secondData)
-            }
-            else if(results.sign == '-'){
-                results.results = parseInt(results.results) - parseInt(results.secondData)
-            }
-            else if(results.sign == '*'){
-                results.results = parseInt(results.results) * parseInt(results.secondData)
-            }
-            else if(results.sign == '/'){
-                results.results = parseFloat(results.secondData) / parseFloat(results.results)
-            }
-        }
+    data:{
+        buttons: [
+            { id:1, value: 7 },
+            { id:2, value: 8 },
+            { id:3, value: 9 },
+            { id:4, value: 4 },
+            { id:5, value: 5 },
+            { id:6, value: 6 },
+            { id:7, value: 1 },
+            { id:8, value: 2 },
+            { id:9, value: 3 },
+            { id:10, value: '+' },
+            { id:11, value: 0 },
+            { id:12, value: '-' },
+            { id:13, value: '*' },
+            { id:14, value: '=' },
+            { id:15, value: '/' },
+        ]
     }
 });
 
@@ -216,9 +45,10 @@ var clear = new Vue({
     },
     methods: {
         clear: function(){
-            results.results = ''
-            results.secondData = null
-            sign = ''
+            results.results = '';
+            results.secondData = null;
+            sign = '';
+            results.answer = false;
         }
     }
 });
@@ -227,17 +57,38 @@ var results = new Vue({
     el: "#results",
     data: {
         results: '',
-        secondData: null,
+        firstValue: null,
+        secondValue: null,
+        secondValHist: null,
         sign: '',
     },
     methods: {
-        calculate: function(n){
-            this.results += n
+        add: function(n){
+            if(this.results == this.sign) this.results = '';
+            this.results += n;
         },
         addSign: function(s){
-            this.sign = s
-            this.secondData = this.results
-            this.results = ''
+            this.sign = s;
+            this.firstValue = this.results;
+            this.results = this.sign;
+        },
+        calculate: function (){
+            /*if(this.) {
+                this.firstValue = this.secondValue;
+                this.secondValue = this.secondValHist;
+            }
+            else{
+                this.secondValHist = this.secondValue;
+                
+            }*/
+            this.secondValue = this.results;
+            if(this.sign == '+') this.results = parseFloat(this.firstValue) + parseFloat(this.secondValue);
+
+            else if(this.sign == '-') this.results = parseFloat(results.firstValue) - parseFloat(this.secondValue);
+
+            else if(this.sign == '*') this.results = parseFloat(results.firstValue) * parseFloat(this.secondValue);
+
+            else if(this.sign == '/') this.results = parseFloat(results.firstValue) / parseFloat(this.secondValue);
         }
     }
 });
