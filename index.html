@@ -17,8 +17,8 @@
         <div class="row">
             <div id="calculator" class="col-sm-6">
             <button class="button" id="clear" @click="clear">{{ sign }}</button>
+            <img src="media/copy.png" id="copyImage" @click="copyResults">
                 <div id="results">{{results}}</div>
-                    <img src="media/copy.png" id="copyImage" @click="copyResults">
                 <div id="calculator-area">
                     <calc-button
                         v-for="value in buttons"
@@ -26,12 +26,14 @@
                         v-bind:value="value.value"
                     ></calc-button>
                 </div>  
+                <!--
                 <div id="history" class="col-sm-6">
                     <h3 id="history-title">History</h3>
                     <ul>
                         <li v-for="result in history">
                     </ul>
                 </div>
+                -->
             </div>
         </div>
     </body>

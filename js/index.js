@@ -58,10 +58,12 @@ var copyButton = new Vue({
     methods: {
         copyResults: function () {
             var range = document.createRange();
-            range.selectNode(document.getElementById('copyImage'));
+            range.selectNode(document.getElementById('results'));
             window.getSelection().removeAllRanges();
             window.getSelection().addRange(range);
             document.execCommand("copy");
+            window.getSelection().removeRange(range);
+            alert("The text was copied into your clipboard");
         }
     }
 })

@@ -50,19 +50,19 @@ button:hover{
 #copyImage{
     width: 20px;
     position: absolute;
-    transition: 0.3s;
+    margin-top: 15px;
 }
-#copyImage:hover{
-    transform: scale(1.15);
-    cursor: pointer;
+
+#copyImage:active{
+    opacity: 0.5;
 }
 
 #clear{
     width: 10%;
-    line-height: 100px;
+    line-height: 50px;
     float: left;
     border: none;
-    height: 16.6666%;
+    height: 10%;
 }
 
 /* Ripple magic */
@@ -71,7 +71,7 @@ button{
     overflow: hidden;
 }
 
-button:after {
+button:after{
     content: '';
     position: absolute;
     top: 50%;
