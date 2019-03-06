@@ -8,7 +8,7 @@ nav{
 }
 #calculator{
     background: darkgray;
-    width: 350px;
+    max-width: 350px;
     height: 500px;
     margin: 0 auto;
 }
@@ -102,4 +102,8 @@ button:after {
 
     button:focus:not(:active)::after {
     animation: ripple 0.5s ease-out;
+}
+
+#history-title{
+    text-align: center;
 }

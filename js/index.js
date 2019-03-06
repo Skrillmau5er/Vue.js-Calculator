@@ -4,13 +4,13 @@ Vue.component('calc-button', {
     methods: {
         put: function (v) {
             if(isNaN(v)){
-                if(v === '+') results.addSign(v);
-                else if(v === '-') results.addSign(v);
-                else if(v === '*') results.addSign(v);
-                else if(v === '/') results.addSign(v);
-                else results.calculate();
+                if(v === '+') calculator.addSign(v);
+                else if(v === '-') calculator.addSign(v);
+                else if(v === '*') calculator.addSign(v);
+                else if(v === '/') calculator.addSign(v);
+                else calculator.calculate();
             }
-            else results.add(v);
+            else calculator.add(v);
         }
     }
 });
@@ -38,6 +38,21 @@ var calcArea = new Vue({
     }
 });
 
+var clear = new Vue({
+    el: '#clear',
+    data: {
+        sign: "C"
+    },
+    methods: {
+        clear: function(){
+            calculator.results = '';
+            calculator.secondData = null;
+            sign = '';
+            calculator.answer = false;
+        }
+    }
+});
+
 var copyButton = new Vue({
     el: '#copyImage',
     methods: {
@@ -51,28 +66,27 @@ var copyButton = new Vue({
     }
 })
 
-var clear = new Vue({
-    el: '#clear',
+/*var history = new Vue({
+    el: "#history",
     data: {
-        sign: "C"
+        history: null,
     },
     methods: {
-        clear: function(){
-            results.results = '';
-            results.secondData = null;
-            sign = '';
-            results.answer = false;
+        calc: function(hist){
+            alert(hist);
         }
     }
-});
+});*/
 
-var results = new Vue({
+var calculator = new Vue({
     el: "#results",
     data: {
         results: '',
         firstValue: null,
         secondValue: null,
         secondValHist: null,
+        history: [],
+        id: 1,
         sign: '',
     },
     methods: {
@@ -86,22 +100,22 @@ var results = new Vue({
             this.results = this.sign;
         },
         calculate: function (){
-            /*if(this.) {
-                this.firstValue = this.secondValue;
-                this.secondValue = this.secondValHist;
-            }
-            else{
-                this.secondValHist = this.secondValue;
-                
-            }*/
+            
             this.secondValue = this.results;
             if(this.sign == '+') this.results = parseFloat(this.firstValue) + parseFloat(this.secondValue);
 
-            else if(this.sign == '-') this.results = parseFloat(results.firstValue) - parseFloat(this.secondValue);
+            else if(this.sign == '-') this.results = parseFloat(this.firstValue) - parseFloat(this.secondValue);
 
-            else if(this.sign == '*') this.results = parseFloat(results.firstValue) * parseFloat(this.secondValue);
+            else if(this.sign == '*') this.results = parseFloat(this.firstValue) * parseFloat(this.secondValue);
 
-            else if(this.sign == '/') this.results = parseFloat(results.firstValue) / parseFloat(this.secondValue);
+            else if(this.sign == '/') this.results = parseFloat(this.firstValue) / parseFloat(this.secondValue);
+            
+            //Push the answer and the previous values into the history array
+            var hist = { id: this.id++, answer: this.results, firstValue: this.firstValue, secondValue: this.secondValue, sign: this.sign }
+            this.addHistory(hist);
+        },
+        addHistory: function(hist){
+            this.history.push(hist);
         }
     }
 });
