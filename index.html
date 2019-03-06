@@ -17,7 +17,7 @@
         <div id="calculator" class="col-sm-6">
          <button class="button" id="clear" @click="clear">{{ sign }}</button>
             <div id="results">{{results}}</div>
-                <!--<img src="media/copy.png" id="copyImage" @click.stop.prevent="copyResults">-->
+                <img src="media/copy.png" id="copyImage" @click="copyResults">
             <div id="calculator-area">
                 <calc-button
                     v-for="value in buttons"

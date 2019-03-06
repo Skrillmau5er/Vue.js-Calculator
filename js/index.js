@@ -38,6 +38,19 @@ var calcArea = new Vue({
     }
 });
 
+var copyButton = new Vue({
+    el: '#copyImage',
+    methods: {
+        copyResults: function () {
+            var range = document.createRange();
+            range.selectNode(document.getElementById('copyImage'));
+            window.getSelection().removeAllRanges();
+            window.getSelection().addRange(range);
+            document.execCommand("copy");
+        }
+    }
+})
+
 var clear = new Vue({
     el: '#clear',
     data: {
